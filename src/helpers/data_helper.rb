@@ -7,4 +7,9 @@ class DataHelper
     end
     rehash
   end
+  def self.getJson(string)
+    parser = JSON::Ext::Parser.new(string)
+    json = parser.parse
+    json
+  end
 end
