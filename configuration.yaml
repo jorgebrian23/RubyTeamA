@@ -2,6 +2,4 @@ app:
   url: https://www.pivotaltracker.com/services/v5/
   time_out: 180
   account:
-    token: cc208743093009d653e793ba384f6f16
-    name: walter_mercado_jala
-    password: P@ssw0rd
+    token: a5b12e8a9f2a61c6d14dcebf9b687513

@@ -15,7 +15,8 @@ When(/^I send a (GET) request to (.*?)$/) do |method, end_point|
 	parser = JSON::Ext::Parser.new(@http_response.body)
 	json = parser.parse
 	object = DataHelper.rehash_to_symbol_keys(json)
-	p me_details = MeDetails.new(object)
+	me_details = MeDetails.new(object)
+  puts me_details.email
 end
 
 Then(/^I expect Status code (\d+)$/) do |http_code|
