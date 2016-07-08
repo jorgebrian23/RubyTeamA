@@ -13,8 +13,8 @@ class ApiRestClient
     @base_url = @config.get('url')
     @time_out = @config.get('time_out')
 
-    @account_name = @config.get('account/name')
-    @password = @config.get('account/password')
+    #@account_name = @config.get('account/name')
+    #@password = @config.get('account/password')
     @token = @config.get('account/token')
 
     nil
@@ -49,7 +49,7 @@ class ApiRestClient
         request = Net::HTTP::Get.new(uri)
     end
 
-    request.basic_auth(@account_name, @password)
+    #request.basic_auth(@account_name, @password)
     request.add_field("X-TrackerToken", @token)  
     request.add_field("content-type", 'application/json')
     request.add_field("'accept'", 'application/json')
