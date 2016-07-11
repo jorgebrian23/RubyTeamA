@@ -7,3 +7,10 @@ Cucumber::Rake::Task.new(:me_details, 'Runs the whole test Suite') do |t|
   rescue
   end
 end
+Cucumber::Rake::Task.new(:me_details, 'Runs the whole test Suite') do |t|
+  begin
+    t.cucumber_opts = "features/*
+             --format html --out=reports/reports.html"
+  rescue
+  end
+end
