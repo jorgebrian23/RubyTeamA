@@ -10,7 +10,7 @@ Feature: Stories
   @test
   Scenario: Stories DELETE
     Given I have set a connection to pivotal_tracker API service
-    When I send a story DELETE request to /projects/1655063/stories/126060733/
+    When I send a story DELETE request to /projects/1655063/stories/126058981/
     Then I expect Status code 204
 
   @test
