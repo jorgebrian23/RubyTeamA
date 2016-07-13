@@ -12,11 +12,7 @@ class ApiRestClient
     @config = Configuration.new
     @base_url = @config.get('url')
     @time_out = @config.get('time_out')
-
-    #@account_name = @config.get('account/name')
-    #@password = @config.get('account/password')
     @token = @config.get('account/token')
-
     nil
   end
   #
@@ -24,7 +20,6 @@ class ApiRestClient
   #
   def get_connection
       uri = URI.parse(@base_url)
-      http_connection = nil
       http_connection = Net::HTTP.new(uri.host, uri.port)
       http_connection.use_ssl = true
       http_connection.verify_mode = OpenSSL::SSL::VERIFY_NONE      
@@ -49,7 +44,6 @@ class ApiRestClient
         request = Net::HTTP::Get.new(uri)
     end
 
-    #request.basic_auth(@account_name, @password)
     request.add_field("X-TrackerToken", @token)  
     request.add_field("content-type", 'application/json')
     request.add_field("'accept'", 'application/json')

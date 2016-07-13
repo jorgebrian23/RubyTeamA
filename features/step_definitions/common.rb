@@ -1,4 +1,7 @@
+require 'json/ext'
 require_relative '../../src/helpers/rest_client/api_rest_client'
+require_relative '../../src/data/me_details'
+require_relative '../../src/helpers/data_helper'
 
 Given(/^I have set a connection to pivotal_tracker API service$/) do
   @client = ApiRestClient.new
