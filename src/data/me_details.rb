@@ -20,5 +20,4 @@ class MeDetails < BaseClassForDataClasses
   def initialize(values = {})
     super(values)
   end
-
 end

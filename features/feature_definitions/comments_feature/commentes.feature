@@ -13,7 +13,7 @@ Feature: Comments
     When I send a POST request to /projects/1655469/stories/126047265/comments with json
 	"""
 		{
-		  "created_at": "<create_at>",
+		 "created_at": "<create_at>",
          "id": <id>,
          "kind": "<kind>",
          "person_id": <person_id>,

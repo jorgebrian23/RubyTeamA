@@ -7,3 +7,9 @@ Cucumber::Rake::Task.new(:me_details, 'Runs the whole test Suite') do |t|
   rescue
   end
 end
+Cucumber::Rake::Task.new(:me_details_json, 'Runs the whole test Suite') do |t|
+  begin
+    t.cucumber_opts = "features/* -f json -o reports.json"
+  rescue
+  end
+end
