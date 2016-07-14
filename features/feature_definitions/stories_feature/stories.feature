@@ -1,10 +1,16 @@
 @api_test
 Feature: Stories
 
-  @smoke
+  @smoke, @get
   Scenario: Stories GET
     Given I have set a connection to pivotal_tracker API service
-    When I send a story GET request to /projects/1655063/stories/126047279
+    When I send a story GET request to storiesGet endpoint for project 1655063
+    Then I expect Status code 200
+
+  @smoke, @get
+  Scenario: Stories by Id GET
+    Given I have set a connection to pivotal_tracker API service
+    When I send a story GET request to storiesIdGet endpoint for project 1655063 and story 126003425
     Then I expect Status code 200
 
   @smoke
