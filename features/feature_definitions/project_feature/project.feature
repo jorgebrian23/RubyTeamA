@@ -6,7 +6,6 @@ Feature: Project
     Given I have set a connection to pivotal_tracker API service
     When I send a GET request to /projects/1657475
     Then I expect Status code 200
-
   @smoke
   Scenario: Project PUT
     Given I have set a connection to pivotal_tracker API service
@@ -35,8 +34,16 @@ Feature: Project
       |name|
       |albaco1|
 
-#  @acceptance
-#  Scenario: Epics verify field kind is a string
-#    Given I have set a connection to pivotal_tracker API service
-#    When I send a GET request epics to /projects/1655469/epics
-#    Then Verify field kind is a string
+  @acceptance
+  Scenario: checks whether the field is a string
+    Given I have set a connection to pivotal_tracker API service
+    When I send a GET request project to /projects
+    Then Verify if the field is a string
+  @acceptance
+  Scenario: checks whether the name to send updated successfully
+    Given I have set a connection to pivotal_tracker API service
+    When I send a PUT request project to /projects/1657475
+    """
+    {"name":"projectNameAlvaro"}
+    """
+    Then Verify if the field is a string projectNameAlvaro
