@@ -1,6 +1,5 @@
 require_relative 'base_class_for_data_classes'
 
-
 class Story < BaseClassForDataClasses
   attr_accessor :kind,
                 :id,
