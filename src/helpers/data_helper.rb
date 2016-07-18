@@ -24,6 +24,14 @@ class DataHelper
   def self.is_boolean?(value)
     value.kind_of?(boolean)
   end
+  def self.is_date_time?(date_time_string)
+    date_time = DateTime.parse(date_time_string)
+    date_time.kind_of?(DateTime)
+  end
+  def self.is_label?(label)
+    require_relative '../../src/data/label'
+    label.kind_of?(Label)
+  end
   def self.is_string_array?(array, size = nil)
     is_string = true #TODO change variable name
     array.each{|value|
@@ -45,5 +53,21 @@ class DataHelper
       is_bool = self.is_boolean?(value) && is_bool
     }
     is_bool
+  end
+  def self.is_date_time_array?(array)
+    is_date_time = true
+    array.each { |date_time_string|
+      is_date_time = self.is_date_time?(date_time_string) && is_date_time
+    }
+    is_date_time
+  end
+  def self.is_label_array(array)
+    require_relative '../../src/data/label'
+    is_label = true
+    array.each { |label_has|
+      label = Label.new(self.rehash_to_symbol_keys(label_has))
+      is_label = self.is_label?(label) && is_label
+    }
+    is_label
   end
 end
