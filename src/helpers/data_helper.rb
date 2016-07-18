@@ -7,6 +7,7 @@ class DataHelper
     end
     rehash
   end
+  # desde aca complementamos el DataHelper
   def self.get_json(string)
     parser = JSON::Ext::Parser.new(string)
     json = parser.parse
