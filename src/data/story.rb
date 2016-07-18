@@ -17,4 +17,15 @@ class Story < BaseClassForDataClasses
   def initialize(values = {})
     super(values)
   end
+
+  def self.get_array(string)
+      array_stories = []
+      object_json = DataHelper.get_json(string)
+      object_json.each {|value|
+        array = DataHelper.rehash_to_symbol_keys(value)
+        story = Story.new(array)
+        array_stories.push(story)
+      }
+      array_stories
+  end
 end
