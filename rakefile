@@ -13,3 +13,33 @@ Cucumber::Rake::Task.new(:me_details_json, 'Runs the whole test Suite') do |t|
   rescue
   end
 end
+Cucumber::Rake::Task.new(:acceptance, 'Runs the whole test Suite') do |t|
+  begin
+    t.cucumber_opts = "features/* -f html -o reports/acceptance.html -t @acceptance"
+  rescue
+  end
+end
+Cucumber::Rake::Task.new(:acceptance_json, 'Runs the whole test Suite') do |t|
+  begin
+    t.cucumber_opts = "features/* -f json -o reports/acceptance.json -t @acceptance"
+  rescue
+  end
+end
+Cucumber::Rake::Task.new(:epics, 'Runs the whole test Suite') do |t|
+  begin
+    t.cucumber_opts = "features/feature_definitions/epics_feature/epics.feature -f html -o reports/epics.html"
+  rescue
+  end
+end
+Cucumber::Rake::Task.new(:epics_json, 'Runs the whole test Suite') do |t|
+  begin
+    t.cucumber_opts = "features/feature_definitions/epics_feature/epics.feature -f json -o reports/epics.json"
+  rescue
+  end
+end
+Cucumber::Rake::Task.new(:epics_acceptance_json, 'Runs the whole test Suite') do |t|
+  begin
+    t.cucumber_opts = "features/feature_definitions/epics_feature/epics.feature -f json -o reports/epics_acceptance.json -t @acceptance"
+  rescue
+  end
+end
