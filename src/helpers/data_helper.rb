@@ -32,6 +32,9 @@ class DataHelper
     require_relative '../../src/data/label'
     label.kind_of?(Label)
   end
+  def self.is_array?(array)
+    array.kind_of?(Array)
+  end
   def self.is_string_array?(array, size = nil)
     is_string = true #TODO change variable name
     array.each{|value|
