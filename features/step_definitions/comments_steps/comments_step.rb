@@ -11,25 +11,39 @@ When(/^I send a (GET|DELETE) request comments to (.*?)$/) do |method, end_point|
     @comments = Comments.new(array)
     @array_comments.push(@comments)
   }
-
 end
-# validation of keys
+
 Then(/^Verify field kind is a string in comments$/) do
-  is_string = @array_comments[0].kind.kind_of?(String)
-  comment = @array_comments[0];
-  expect(comment.text == "Doing test put").to be true
+  @array_kind = @array_comments.map{|comments|comments.kind}
+  expect(DataHelper.is_string_array?(@array_kind)).to be true
 end
 
-Then(/^Verify if the field ID is a integer/) do
-  is_integer=@array_comments[0].id.kind_of?(Integer)
-  expect(is_integer).to be true
-  p "Exammmpleeeeeeeeeeeee"
-  p @array_comments
+Then(/^Verify if the field id is a integer/)do
+  @array_id = @array_comments.map{|comments|comments.id}
+  expect(DataHelper.is_integer_array?(@array_id)).to be true
 end
-# Iteration
-# Then(/^Verify all the fields in comments$/) do
-#   @comments =
-#   # is_string = @array_comments[0].kind.kind_of?(String)
-#   # comment = @array_comments[0];
-#   # expect(comment.text == "Doing test put").to be true
-# end
+
+Then(/^Verify if the field story_id is a integer/)do
+  @array_story_id = @array_comments.map{|comments|comments.story_id}
+  expect(DataHelper.is_integer_array?(@array_story_id)).to be true
+end
+
+Then(/^Verify field text is a string in comments$/) do
+  @array_text = @array_comments.map{|comments|comments.text}
+  expect(DataHelper.is_string_array?(@array_text)).to be true
+end
+
+Then(/^Verify if the field person_id is a integer/)do
+  @array_person_id = @array_comments.map{|comments|comments.person_id}
+  expect(DataHelper.is_integer_array?(@array_person_id)).to be true
+end
+
+Then(/^Verify if the field created_at is a date time/)do
+  @array_created_at = @array_comments.map{|comments|comments.created_at}
+  expect(DataHelper.is_date_time_array?(@array_created_at)).to be true
+end
+
+Then(/^Verify if the field updated_at is a date time/)do
+  @array_updated_at = @array_comments.map{|comments|comments.updated_at}
+  expect(DataHelper.is_date_time_array?(@array_updated_at)).to be true
+end

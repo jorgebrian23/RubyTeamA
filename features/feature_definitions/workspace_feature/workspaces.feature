@@ -50,3 +50,32 @@ Feature: Workspaces
     When I send a DELETE request to /my/workspaces/591523
     Then I expect Status code 204
 
+  @acceptance
+  Scenario: Workspaces verify field kind is a string
+    Given I have set a connection to pivotal_tracker API service
+    When I send a GET request Workspaces to /my/workspaces
+    Then Workspaces Verify field kind is a string
+
+  @acceptance
+  Scenario: Workspaces verify field id is a integer
+    Given I have set a connection to pivotal_tracker API service
+    When I send a GET request Workspaces to /my/workspaces
+    Then Workspaces Verify field id is a integer
+
+  @acceptance
+  Scenario: Workspaces verify field name is a string
+    Given I have set a connection to pivotal_tracker API service
+    When I send a GET request Workspaces to /my/workspaces
+    Then Workspaces Verify field name is a string
+
+  @acceptance
+  Scenario: Workspaces verify field person_id is a integer
+    Given I have set a connection to pivotal_tracker API service
+    When I send a GET request Workspaces to /my/workspaces
+    Then Workspaces Verify field person_id is a integer
+
+  @acceptance
+  Scenario: Workspaces verify field project_ids is a array
+    Given I have set a connection to pivotal_tracker API service
+    When I send a GET request Workspaces to /my/workspaces
+    Then Workspaces Verify field project_ids is a array
