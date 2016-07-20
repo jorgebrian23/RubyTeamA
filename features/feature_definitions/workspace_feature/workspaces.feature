@@ -79,3 +79,74 @@ Feature: Workspaces
     Given I have set a connection to pivotal_tracker API service
     When I send a GET request Workspaces to /my/workspaces
     Then Workspaces Verify field project_ids is a array
+
+  @negative
+  Scenario: Workspaces verify cant't be created two workspaces with the same name
+    Given I have set a connection to pivotal_tracker API service
+    When I send a POST request Workspaces to /my/workspaces
+    """
+		{
+         "name": "Repeated"
+		}
+	"""
+    Then I expect Status code 400
+
+  @negative
+  Scenario: Workspaces verify can't be delete a non-existing workspace
+    Given I have set a connection to pivotal_tracker API service
+    When I send a DELETE request to /my/workspaces/591523
+    Then I expect Status code 404
+
+  @negative
+  Scenario: Workspaces verify can't be create a workspace with integer name
+    Given I have set a connection to pivotal_tracker API service
+    When I send a POST request Workspaces to /my/workspaces
+      """
+		{
+         "name": 123
+		}
+	  """
+    Then I expect Status code 400
+
+  @negative
+  Scenario Outline: Workspaces verify can't be add non-existing projects to workspace
+    Given I have set a connection to pivotal_tracker API service
+    When I send a PUT request to /my/workspaces/591525 with json
+	"""
+		{
+         "id": <id>,
+         "project_ids":<project_ids>
+		}
+	"""
+    Then I expect Status code 400
+
+    Examples:
+      | id     | project_ids |
+      | 591525 | [1666725]   |
+
+  @negative
+  Scenario: Workspaces verify can't be create a workspace within name
+    Given I have set a connection to pivotal_tracker API service
+    When I send a POST request Workspaces to /my/workspaces
+      """
+		{
+         "name": ""
+		}
+	  """
+    Then I expect Status code 400
+
+  @negative
+  Scenario: Workspaces verify can't be create a workspace with space before the name
+    Given I have set a connection to pivotal_tracker API service
+    When I send a POST request Workspaces to /my/workspaces
+      """
+		{
+         "name": "    test"
+		}
+	  """
+    Then I expect Status code 400
+
+
+
+
+
