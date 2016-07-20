@@ -3,7 +3,6 @@ When(/^I send a (GET) request project to (.*?)$/) do |method, end_point|
   require_relative '../../../src/data/project'
   http_request = @client.get_request(method, end_point)
   @http_response = @client.execute_request(@http_connection, http_request)
-  #puts @http_response.body
   @project_array = Project.get_array(@http_response.body)
 end
 
@@ -49,7 +48,7 @@ When(/^I send a (PUT) request project to (.*?) whit json$/) do |method, end_poin
   http_request = @client.get_request(method, end_point)
   http_request.body=json_text
   @http_response = @client.execute_request(@http_connection, http_request)
-  @project=Project.get_project(@http_response.body)
+  @project=Project.get_parser_project(@http_response.body)
 end
 
 Then(/^Project Verify field name of project is (.*?)$/) do |project_name|
@@ -58,64 +57,23 @@ Then(/^Project Verify field name of project is (.*?)$/) do |project_name|
 
 
 
+When(/^I send a (POST) request project to (.*?) with json$/) do |method, end_point, json_text|
+  require_relative '../../../src/helpers/data_helper'
+  require_relative '../../../src/data/project'
+  http_request = @client.get_request(method, end_point)
+  http_request.body=json_text
 
+  @http_response = @client.execute_request(@http_connection, http_request)
+  @project=Project.get_parser_project(@http_response.body)
 
+end
 
+Then(/^Project Verify field name of the new project is (.*?)$/) do |name_to_compare|
+  expect(@project.name == name_to_compare).to be true
 
+end
 
-
-
-
-
-
-
-
-
-
-
-
-# Then(/^Project Verify field id in projects is a boolean$/) do
-#   @array_boolean = @project_array.map{|project| project.point_scale_is_custom }
-#   expect(DataHelper.is_boolean_array?(@array_boolean)).to be true
-# end
-
-
-# When(/^I send a (GET) request project to (.*?)$/) do |method, end_point|
-#   require_relative '../../../src/helpers/data_helper'
-#   require_relative '../../../src/data/project'
-#   http_request = @client.get_request(method, end_point)
-#   @http_response = @client.execute_request(@http_connection, http_request)
-#
-#   @array_project=[]
-#   object_json = DataHelper.get_json(@http_response.body)
-#   object_json.each {|project|
-#     array = DataHelper.rehash_to_symbol_keys(project)
-#     @my_project = Project.new(array)
-#     @array_project.push(@my_project)
-#   }
-#
-# end
-#
-# Then(/^Verify if the field is a string$/) do
-#   is_string=@array_project[0].name.kind_of?(String)
-#   expect(is_string).to be true
-# end
-#
-#
-#
-# When(/^I send a (PUT) request project to (.*?)$/) do |method, end_point, json_text|
-#   require_relative '../../../src/helpers/data_helper'
-#   require_relative '../../../src/data/project'
-#   http_request = @client.get_request(method, end_point)
-#   http_request.body=json_text
-#   @http_response = @client.execute_request(@http_connection, http_request)
-#
-#   object_json = DataHelper.get_json(@http_response.body)
-#   @result=DataHelper.rehash_to_symbol_keys(object_json)
-#   @project=Project.new(@result)
-#
-# end
-#
-# Then(/^Verify if the field is a string (.*?)$/) do |project_name|
-#   expect(@project.name == project_name).to be true
-# end
+Then(/^Project will be (DELETE) by ID$/) do |method|
+  http_request = @client.get_request(method, "/projects/#{@project.id}")
+  @http_response = @client.execute_request(@http_connection, http_request)
+end

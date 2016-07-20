@@ -46,13 +46,11 @@ class Project < BaseClassForDataClasses
     array_projects
   end
 
-  def self.get_project(string)
+  def self.get_parser_project(string)
     object_json =DataHelper.get_json(string)
-    puts "hasta aca llegue!"
     result=DataHelper.rehash_to_symbol_keys(object_json)
     project=Project.new(result)
-
-    return project
+    project
   end
 
 end
