@@ -4,6 +4,7 @@ Feature: Epics
   @smoke
   Scenario: Project GET
     Given I have set a connection to pivotal_tracker API service
+     And create a new project ProjectAldoBV
     When I send a GET request to /projects/1655469/epics
     Then I expect Status code 200
 
