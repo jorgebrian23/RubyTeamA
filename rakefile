@@ -49,3 +49,9 @@ Cucumber::Rake::Task.new(:negative_json, 'Runs the whole test Suite') do |t|
   rescue
   end
 end
+Cucumber::Rake::Task.new(:acceptance_negative_json, 'Runs the whole test Suite') do |t|
+  begin
+    t.cucumber_opts = "features/* -f json -o reports/acceptance_negative.json -t @acceptance,@negative"
+  rescue
+  end
+end
