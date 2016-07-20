@@ -75,6 +75,20 @@ class DataHelper
     is_label
   end
 
-
-
+  def self.get_hash_parse(string)
+    object_json = DataHelper.get_json(string)
+    DataHelper.rehash_to_symbol_keys(object_json)
+  end
+  def self.get_parser_story(string)
+    require_relative '../../src/data/story'
+    result = DataHelper.get_hash_parse(string)
+    story = Story.new(result)
+    story
+  end
+  def self.get_parser_error_response(string)
+    require_relative '../data/error_response'
+    result = DataHelper.get_hash_parse(string)
+    error_response = ErrorResponse.new(result)
+    error_response
+  end
 end
