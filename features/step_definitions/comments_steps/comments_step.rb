@@ -47,3 +47,39 @@ Then(/^Verify if the field updated_at is a date time/)do
   @array_updated_at = @array_comments.map{|comments|comments.updated_at}
   expect(DataHelper.is_date_time_array?(@array_updated_at)).to be true
 end
+
+When(/^I send a negative (POST) request comments to (.*?) with json$/) do |method, end_point,json_text|
+  require_relative '../../../src/helpers/data_helper'
+  require_relative '../../../src/data/error_response'
+  http_request = @client.get_request(method, end_point)
+  http_request.body = json_text
+  @http_response = @client.execute_request(@http_connection, http_request)
+  @comments = ErrorResponse.get_parser_error(@http_response.body )
+end
+
+Then(/^Comments in post verify field code is (.*?)$/)do |value|
+  expect(@comments.code.to_s).to eql(value)
+end
+
+Then(/^Comments in post verify field kind is (.*?)$/)do |value|
+  expect(@comments.kind.to_s).to eql(value)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
