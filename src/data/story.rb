@@ -1,4 +1,5 @@
 require_relative 'base_class_for_data_classes'
+require_relative '../../src/helpers/data_helper'
 
 class Story < BaseClassForDataClasses
   attr_accessor :kind,
@@ -29,3 +30,5 @@ class Story < BaseClassForDataClasses
       array_stories
   end
 end
+
+
