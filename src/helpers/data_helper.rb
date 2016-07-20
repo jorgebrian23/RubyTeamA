@@ -33,6 +33,10 @@ class DataHelper
     require_relative '../../src/data/label'
     label.kind_of?(Label)
   end
+  def self.is_validation_error?(validationError)
+    require_relative '../../src/data/validation_errors'
+    validationError.kind_of?(ValidationErrors)
+  end
   def self.is_array?(array)
     array.kind_of?(Array)
   end
@@ -73,6 +77,16 @@ class DataHelper
       is_label = self.is_label?(label) && is_label
     }
     is_label
+  end
+
+  def self.is_validationErrors_array(array)
+    require_relative '../../src/data/validation_errors'
+    is_validationError = true
+    array.each {|validationError_has|
+      validationError = ValidationErrors.new(self.rehash_to_symbol_keys(validationError_has))
+      is_validationError = self.is_validation_error?(validationError) && is_validationError
+    }
+    is_validationError
   end
 
   def self.get_hash_parse(string)
