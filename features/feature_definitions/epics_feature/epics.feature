@@ -1,11 +1,34 @@
 @smoke_feature
 Feature: Epics
 
-  @smoke
-  Scenario: Project GET
+  @smoke @development
+  Scenario Outline: Epics GET
     Given I have set a connection to pivotal_tracker API service
-    When I send a GET request to /projects/1655469/epics
+     And create a new project ProjectAldoGET
+     And create a new epic <epic>
+    When Epics I send a GET request to epics
     Then I expect Status code 200
+     And Deleted a new project
+    Examples:
+    |epic|
+    |epic_test1|
+    |epic_test2|
+    |epic_test3|
+    |epic_test4|
+
+  @smoke @development
+  Scenario Outline: Epics POST
+    Given I have set a connection to pivotal_tracker API service
+     And create a new project ProjectAldoPOST
+    When Epics I send a POST request to epics
+    """
+       {"name":"<name>"}
+    """
+    Then I expect Status code 200
+    And Deleted a new project
+    Examples:
+      |name|
+      |epic_test1|
 
   @acceptance
   Scenario: Epics verify field id is a integer
