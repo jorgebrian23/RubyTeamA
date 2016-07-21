@@ -15,7 +15,6 @@ When(/^I send a (PUT|POST) request Workspaces to (.*?)$/) do |method, end_point,
   http_request = @client.get_request(method, end_point)
   http_request.body = json_text
   @http_response = @client.execute_request(@http_connection, http_request)
-  #@array_workspaces = Workspaces.get_array(@http_response.body)
 end
 
 
