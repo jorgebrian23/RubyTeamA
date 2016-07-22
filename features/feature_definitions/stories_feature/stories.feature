@@ -1,22 +1,10 @@
 @api_test
 Feature: Stories
 #Smoke
-  @smoke
-  Scenario: Stories GET
-    Given I have set a connection to pivotal_tracker API service
-    When I send a GET request to /projects/1655063/stories/126003425/
-    Then I expect Status code 200
-
-  @smoke
-  Scenario: Stories DELETE
-    Given I have set a connection to pivotal_tracker API service
-    When I send a DELETE request to /projects/1655063/stories/126436199/
-    Then I expect Status code 204
-
-  @smoke
+  @smokeFlow
   Scenario Outline: Stories POST
     Given I have set a connection to pivotal_tracker API service
-    When I send a POST request to /projects/1655063/stories/ with json
+    When I send a POST request story smoke to story
     """
     {
      "name":"<name>"
@@ -25,13 +13,13 @@ Feature: Stories
     Then I expect Status code 200
 
     Examples:
-    |name|
-    | StoryPOST_002 |
+      |name|
+      | StoryPOST_test |
 
-  @smoke
+  @smokeFlow
   Scenario: Stories PUT
     Given I have set a connection to pivotal_tracker API service
-    When I send a PUT request to /projects/1655063/stories/126047295 with json
+    When I send a PUT request story smoke to story
     """
     {
        "name":"storyPUT_Test003"
@@ -39,8 +27,20 @@ Feature: Stories
     """
     Then I expect Status code 200
 
+  @smoke
+  Scenario: Stories GET
+    Given I have set a connection to pivotal_tracker API service
+    When I send a GET request to /projects/1655063/stories/126003425/
+    Then I expect Status code 200
 
-#Acceptance
+  @smokeFlow
+  Scenario: Stories DELETE
+    Given I have set a connection to pivotal_tracker API service
+    When I send a DELETE request story smoke to story
+    Then I expect Status code 204
+      And Delete project
+
+#acceptance
   @acceptance
   Scenario: Stories: Verify if kind field is String
     Given I have set a connection to pivotal_tracker API service
@@ -100,3 +100,39 @@ Feature: Stories
     Given I have set a connection to pivotal_tracker API service
     When I send a GET story request to /projects/1655063/stories/
     Then Story Verify if project_id field is integer
+
+  @acceptance
+  Scenario Outline: Stories: POST acceptance
+    Given I have set a connection to pivotal_tracker API service
+    When I send a POST story request  to /projects/1655063/stories/ with json
+    """
+    {
+     "name":"<name>"
+    }
+    """
+    Then Story verify field name of the new story is Story_testDelete
+    Then Story will be DELETE by ID
+
+    Examples:
+    |name|
+    |Story_testDelete|
+
+  @negative
+  Scenario Outline: Stories: POST negative
+    Given I have set a connection to pivotal_tracker API service
+    When I send a negative POST story request  to /projects/1655063/stories/ with json
+    """
+    {
+     "name":"<name>"
+    }
+    """
+    Then I expect Status code 400
+      And Story response code is invalid_parameter
+      And Story response kind is error
+      And Story response error is One or more request parameters was missing or invalid.
+      And Story response general_problem is Name can't be blank
+      And Story response validationErrorsName is name
+
+    Examples:
+      |name|
+      ||

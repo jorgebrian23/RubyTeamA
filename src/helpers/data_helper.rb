@@ -33,6 +33,10 @@ class DataHelper
     require_relative '../../src/data/label'
     label.kind_of?(Label)
   end
+  def self.is_validation_error?(validationError)
+    require_relative '../../src/data/validation_errors'
+    validationError.kind_of?(ValidationErrors)
+  end
   def self.is_array?(array)
     array.kind_of?(Array)
   end
@@ -75,6 +79,57 @@ class DataHelper
     is_label
   end
 
+  def self.is_validationErrors_array(array)
+    require_relative '../../src/data/validation_errors'
+    is_validationError = true
+    array.each {|validationError_has|
+      validationError = ValidationErrors.new(self.rehash_to_symbol_keys(validationError_has))
+      is_validationError = self.is_validation_error?(validationError) && is_validationError
+    }
+    is_validationError
+  end
 
+  def self.get_hash_parse(string)
+    object_json = DataHelper.get_json(string)
+    DataHelper.rehash_to_symbol_keys(object_json)
+  end
+  def self.get_parser_story(string)
+    require_relative '../../src/data/story'
+    result = DataHelper.get_hash_parse(string)
+    story = Story.new(result)
+    story
+  end
+  def self.get_parser_epics(string)
+    require_relative '../../src/data/epic'
+    result = DataHelper.get_hash_parse(string)
+    epic = Epic.new(result)
+    epic
+  end
+  def self.get_parser_comments(string)
+    require_relative '../../src/data/comments'
+    result = DataHelper.get_hash_parse(string)
+    comments = Comments.new(result)
+    comments
+  end
 
+  def self.get_parser_project(string)
+    require_relative '../../src/data/project'
+    result = DataHelper.get_hash_parse(string)
+    project = Project.new(result)
+    project
+  end
+
+  def self.get_parser_workspaces(string)
+    require_relative '../../src/data/workspaces'
+    result = DataHelper.get_hash_parse(string)
+    workspaces = Workspaces.new(result)
+    workspaces
+  end
+
+  def self.get_parser_error_response(string)
+    require_relative '../data/error_response'
+    result = DataHelper.get_hash_parse(string)
+    error_response = ErrorResponse.new(result)
+    error_response
+  end
 end

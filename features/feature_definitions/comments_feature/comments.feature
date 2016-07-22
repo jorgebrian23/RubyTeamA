@@ -2,6 +2,34 @@
 Feature: Feature Comments
 
   @smoke
+  Scenario: Comments POST
+    Given I have set a connection to pivotal_tracker API service
+    When I send a POST request comments to comments with json
+    """
+    {
+    "text":"This's a new post"
+    }
+    """
+    Then I expect Status code 200
+
+  @smoke
+  Scenario: Comments PUT
+    Given I have set a connection to pivotal_tracker API service
+    When I send a PUT request comments to comments with json
+    """
+    {
+    "text":"This is a put"
+    }
+    """
+    Then I expect Status code 200
+
+  @smoke
+  Scenario: Comments DELETE
+    Given I have set a connection to pivotal_tracker API service
+    When I send a DELETE request projects
+    Then I expect Status code 204
+
+  @smoke
   Scenario: Me Comments
     Given I have set a connection to pivotal_tracker API service
     When I send a GET request to /projects/1655507/stories/126056769/comments
@@ -10,27 +38,10 @@ Feature: Feature Comments
   @smoke
   Scenario: Me Comments
     Given I have set a connection to pivotal_tracker API service
-    When I send a POST request to /projects/1655507/stories/126056769/comments with json
-    """
-    {
-    "text":"This is a post of Juana"
-    }
-    """
-    Then I expect Status code 200
-
-  @smoke
-  Scenario: Me Comments
-    Given I have set a connection to pivotal_tracker API service
-    When I send a DELETE request to /projects/1655507/stories/126056769/comments/143574185
-    Then I expect Status code 204
-
-  @smoke
-  Scenario: Me Comments
-    Given I have set a connection to pivotal_tracker API service
     When I send a PUT request to /projects/1655507/stories/126056769/comments/143586413 with json
     """
       {
-         "text": "This is a  pap"
+         "text": "This is other put"
       }
     """
     Then I expect Status code 200
@@ -76,3 +87,80 @@ Feature: Feature Comments
     Given I have set a connection to pivotal_tracker API service
     When I send a GET request comments to /projects/1655507/stories/126056769/comments
     Then Verify if the field updated_at is a date time
+
+  @negative
+  Scenario: Comments verify field text is empty
+    Given I have set a connection to pivotal_tracker API service
+    When I send a POST request to /projects/1655507/stories/126056769/comments with json
+    """
+    {
+    "text":""
+    }
+    """
+    Then I expect Status code 400
+
+  @negative
+  Scenario: Comments verify field text don't accept blank spaces
+    Given I have set a connection to pivotal_tracker API service
+    When I send a POST request to /projects/1655507/stories/126056769/comments with json
+    """
+    {
+    "text":"   "
+    }
+    """
+    Then I expect Status code 400
+
+  @negative
+  Scenario: Comments verify that don't can deleted a comment that don't exist
+    Given I have set a connection to pivotal_tracker API service
+    When I send a DELETE request to /projects/1655507/stories/126056769/comments/1435741859
+    Then I expect Status code 400
+
+  @negative
+  Scenario: Comments verify that don't can edited a comment that don't exist
+    Given I have set a connection to pivotal_tracker API service
+    When I send a PUT request to /projects/1655507/stories/126056769/comments/143574178859 with json
+    """
+      {
+         "text": "This is a negative test"
+      }
+    """
+    Then I expect Status code 400
+
+  @negative
+  Scenario: Comments verify that don't can edit a comment for empty comment
+    Given I have set a connection to pivotal_tracker API service
+    When I send a PUT request to /projects/1655507/stories/126056769/comments/143586413 with json
+    """
+      {
+         "text": ""
+      }
+    """
+    Then I expect Status code 400
+
+  @negative
+  Scenario: Comments verify that don't can edit a comment for blank spaces
+    Given I have set a connection to pivotal_tracker API service
+    When I send a PUT request to /projects/1655507/stories/126056769/comments/143586413 with json
+    """
+      {
+         "text": "      "
+      }
+    """
+    Then I expect Status code 400
+
+  @negative
+  Scenario: Comments verify that don't can edit a comment for empty comments and validated of error
+    Given I have set a connection to pivotal_tracker API service
+    When I send a negative POST request comments to /projects/1655507/stories/126056769/comments with json
+      """
+      {
+          "text":""
+      }
+      """
+    Then I expect Status code 400
+
+    Then Comments in post verify field code is invalid_parameter
+    Then Comments in post verify field kind is error
+
+
