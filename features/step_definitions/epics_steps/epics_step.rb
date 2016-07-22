@@ -45,3 +45,51 @@ Then(/^Epics Verify field label is a Label/) do
   @array_label = @epics.array_epic.map{|epic| epic.label }
   expect(DataHelper.is_label_array(@array_label)).to be true
 end
+
+When(/^Epics I send a (GET) request to (.*?)$/) do |method, end_point|
+  require_relative '../../../src/data/project'
+  http_request = @client.get_request(method, "/projects/#{@proyect.id}/#{end_point}")
+  @http_response = @client.execute_request(@http_connection, http_request)
+end
+
+When(/^Epics I send a (POST) request to (.*?)$/) do |method, end_point, json_text|
+  require_relative '../../../src/data/project'
+  http_request = @client.get_request(method, "/projects/#{@proyect.id}/#{end_point}")
+  http_request.body = json_text
+  @http_response = @client.execute_request(@http_connection, http_request)
+end
+
+And(/^create a new project (.*?)$/) do |project_name|
+  require_relative '../../../src/data/project'
+  http_request = @client.get_request("POST", "/projects")
+  http_request.body = "{ \"name\" : \"#{project_name}\""
+  @http_response = @client.execute_request(@http_connection, http_request)
+  @proyect = Project.get_parser_project(@http_response.body)
+end
+And(/^create a new epic (.*?)$/) do |epic_name|
+  require_relative '../../../src/data/project'
+  http_request = @client.get_request("POST", "/projects/#{@proyect.id}/epics")
+  http_request.body = "{ \"name\" : \"#{epic_name}\""
+  @http_response = @client.execute_request(@http_connection, http_request)
+  @epic = DataHelper.get_parser_epics(@http_response.body)
+end
+And(/^Deleted a new project$/) do
+  require_relative '../../../src/data/project'
+  http_request = @client.get_request("DELETE", "/projects/#{@proyect.id}")
+  @http_response = @client.execute_request(@http_connection, http_request)
+end
+
+When(/^Epics I send a (PUT) request to (.*?)$/) do |method, end_point, json_text|
+  require_relative '../../../src/data/project'
+  require_relative '../../../src/data/epic'
+  http_request = @client.get_request(method, "/projects/#{@proyect.id}/#{end_point}/#{@epic.id}")
+  http_request.body = json_text
+  @http_response = @client.execute_request(@http_connection, http_request)
+end
+
+When(/^Epics I send a (DELETE) request to (.*?)$/) do |method, end_point|
+  require_relative '../../../src/data/project'
+  require_relative '../../../src/data/epic'
+  http_request = @client.get_request(method, "/projects/#{@proyect.id}/#{end_point}/#{@epic.id}")
+  @http_response = @client.execute_request(@http_connection, http_request)
+end
