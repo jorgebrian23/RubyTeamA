@@ -1,3 +1,34 @@
+#To workflow
+When(/^I send a (POST) request story smoke to (story)$/) do |method, end_point,json_text|
+  require_relative '../../../src/helpers/data_helper'
+  require_relative '../../../src/data/project'
+  require_relative '../../../src/data/story'
+  @http_request = @client.get_request("POST","/projects")
+  @http_request.body="{\"name\": \"Jin's Project\" }"
+  @http_response=@client.execute_request(@http_connection, @http_request)
+  $stories_project=Project.get_parser_project(@http_response.body)
+
+  @http_request=@client.get_request(method,"/projects/#{$stories_project.id}/stories/")
+  @http_request.body=json_text
+  @http_response=@client.execute_request(@http_connection, @http_request)
+  $story_public = DataHelper.get_parser_story(@http_response.body)
+end
+
+When(/^I send a (PUT) request story smoke to (story)$/) do |method, end_point,json_text|
+  @http_request = @client.get_request(method, "/projects/#{$stories_project.id}/stories/#{$story_public.id}")
+  @http_request.body = json_text
+  @http_response = @client.execute_request(@http_connection, @http_request)
+end
+
+When(/^I send a (DELETE) request story smoke to story$/) do |method|
+  @http_request  = @client.get_request(method,"/projects/#{$stories_project.id}/stories/#{$story_public.id}")
+  @http_response=@client.execute_request(@http_connection, @http_request)
+end
+And(/^Delete project$/) do
+@http_request = @client.get_request("DELETE", "/projects/#{$stories_project.id}")
+@http_response=@client.execute_request(@http_connection, @http_request)
+end
+
 #Acceptance
 When(/^I send a (GET) story request to (.*?)$/) do |method, end_point|
   require_relative '../../../src/helpers/data_helper'
