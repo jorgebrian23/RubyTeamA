@@ -1,10 +1,10 @@
 @smoke_feature
 Feature: Epics
 
-  @smoke @development
+  @smoke
   Scenario Outline: Epics GET
     Given I have set a connection to pivotal_tracker API service
-     And create a new project ProjectAldoGET
+     And create a new project ProjectAldoGET1
      And create a new epic <epic>
     When Epics I send a GET request to epics
     Then I expect Status code 200
@@ -16,10 +16,10 @@ Feature: Epics
     |epic_test3|
     |epic_test4|
 
-  @smoke @development
+  @smoke
   Scenario Outline: Epics POST
     Given I have set a connection to pivotal_tracker API service
-     And create a new project ProjectAldoPOST
+     And create a new project ProjectAldoPOST1
     When Epics I send a POST request to epics
     """
        {"name":"<name>"}
@@ -28,6 +28,33 @@ Feature: Epics
     And Deleted a new project
     Examples:
       |name|
+      |epic_test1|
+
+  @smoke
+  Scenario Outline: Epics PUT
+    Given I have set a connection to pivotal_tracker API service
+     And create a new project ProjectAldoPOST1
+    And create a new epic <epic>
+    When Epics I send a PUT request to epics
+    """
+       {"description":"<name>"}
+    """
+    Then I expect Status code 200
+    And Deleted a new project
+    Examples:
+      |name| |epic|
+      |epic_test2||epic_test1|
+
+  @smoke @development
+  Scenario Outline: Epics DELETE
+    Given I have set a connection to pivotal_tracker API service
+    And create a new project ProjectAldoGET1
+    And create a new epic <epic>
+    When Epics I send a DELETE request to epics
+    Then I expect Status code 204
+    And Deleted a new project
+    Examples:
+      |epic|
       |epic_test1|
 
   @acceptance
