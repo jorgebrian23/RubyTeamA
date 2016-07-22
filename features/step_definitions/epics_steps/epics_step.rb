@@ -71,7 +71,7 @@ And(/^create a new epic (.*?)$/) do |epic_name|
   http_request = @client.get_request("POST", "/projects/#{@proyect.id}/epics")
   http_request.body = "{ \"name\" : \"#{epic_name}\""
   @http_response = @client.execute_request(@http_connection, http_request)
-  @epic = DataHelper.get_parse_epic(@http_response.body)
+  @epic = DataHelper.get_parser_epics(@http_response.body)
 end
 And(/^Deleted a new project$/) do
   require_relative '../../../src/data/project'

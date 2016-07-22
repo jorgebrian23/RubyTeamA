@@ -13,6 +13,18 @@ Cucumber::Rake::Task.new(:me_details_json, 'Runs the whole test Suite') do |t|
   rescue
   end
 end
+Cucumber::Rake::Task.new(:features_json, 'Runs the whole test Suite') do |t|
+  begin
+    t.cucumber_opts = "features/* -f json -o reports/reports.json"
+  rescue
+  end
+end
+Cucumber::Rake::Task.new(:features, 'Runs the whole test Suite') do |t|
+  begin
+    t.cucumber_opts = "features/* -f html -o reports/reports.html"
+  rescue
+  end
+end
 Cucumber::Rake::Task.new(:acceptance, 'Runs the whole test Suite') do |t|
   begin
     t.cucumber_opts = "features/* -f html -o reports/acceptance.html -t @acceptance"
