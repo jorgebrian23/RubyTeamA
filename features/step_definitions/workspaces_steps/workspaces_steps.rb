@@ -3,19 +3,36 @@ require_relative '../../../src/helpers/data_helper'
 require_relative '../../../src/data/workspaces'
 require_relative '../../../src/helpers/rest_client/api_rest_client'
 
-When(/^I send a (GET|DELETE) request Workspaces to (.*?)$/) do |method, end_point|
-  @client = ApiRestClient.new
-  @http_connection = @client.get_connection
+When(/^I send a (GET) request Workspaces to (.*?)$/) do |method, end_point|
+
   http_request = @client.get_request(method, end_point)
   @http_response = @client.execute_request(@http_connection, http_request)
   @array_workspaces = Workspaces.get_array(@http_response.body)
 end
 
-When(/^I send a (PUT|POST) request Workspaces to (.*?)$/) do |method, end_point, json_text|
+When(/^I send a (POST) request Workspaces to (.*?)$/) do |method, end_point, json_text|
   http_request = @client.get_request(method, end_point)
   http_request.body = json_text
   @http_response = @client.execute_request(@http_connection, http_request)
-  #@array_workspaces = Workspaces.get_array(@http_response.body)
+  $workspaces_actual = Workspaces.get_parser_workspaces(@http_response.body)
+  print "a eliminar#{$workspaces_actual.id}"
+end
+
+
+When(/^I send a (PUT) request to workspaces$/) do |method, json_text|
+  http_request = @client.get_request(method, "/my/workspaces/#{$workspaces_actual.id}")
+  http_request.body = json_text
+  @http_response = @client.execute_request(@http_connection, http_request)
+
+end
+
+
+When (/^I send (DELETE) request tos workspaces$/) do |method|
+  require_relative '../../../src/helpers/data_helper'
+  require_relative '../../../src/data/workspaces'
+  print "a eliminar#{$workspaces_actual.id}"
+  @http_request=@client.get_request(method, "/my/workspaces/#{$workspaces_actual.id}")
+  @http_response=@client.execute_request(@http_connection, @http_request)
 end
 
 

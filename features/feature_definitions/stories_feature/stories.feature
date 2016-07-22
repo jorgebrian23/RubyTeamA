@@ -1,22 +1,10 @@
 @api_test
 Feature: Stories
 #Smoke
-  @smoke
-  Scenario: Stories GET
-    Given I have set a connection to pivotal_tracker API service
-    When I send a GET request to /projects/1655063/stories/126003425/
-    Then I expect Status code 200
-
-  @smoke
-  Scenario: Stories DELETE
-    Given I have set a connection to pivotal_tracker API service
-    When I send a DELETE request to /projects/1655063/stories/126730917/
-    Then I expect Status code 204
-
-  @smoke
+  @smokeFlow
   Scenario Outline: Stories POST
     Given I have set a connection to pivotal_tracker API service
-    When I send a POST request to /projects/1655063/stories/ with json
+    When I send a POST request story smoke to story
     """
     {
      "name":"<name>"
@@ -25,19 +13,32 @@ Feature: Stories
     Then I expect Status code 200
 
     Examples:
-    |name|
-    | StoryPOST_002 |
+      |name|
+      | StoryPOST_test |
 
-  @smoke
+  @smokeFlow
   Scenario: Stories PUT
     Given I have set a connection to pivotal_tracker API service
-    When I send a PUT request to /projects/1655063/stories/126047295 with json
+    When I send a PUT request story smoke to story
     """
     {
        "name":"storyPUT_Test003"
     }
     """
     Then I expect Status code 200
+
+  @smoke
+  Scenario: Stories GET
+    Given I have set a connection to pivotal_tracker API service
+    When I send a GET request to /projects/1655063/stories/126003425/
+    Then I expect Status code 200
+
+  @smokeFlow
+  Scenario: Stories DELETE
+    Given I have set a connection to pivotal_tracker API service
+    When I send a DELETE request story smoke to story
+    Then I expect Status code 204
+      And Delete project
 
 #acceptance
   @acceptance
@@ -115,8 +116,6 @@ Feature: Stories
     Examples:
     |name|
     |Story_testDelete|
-
-
 
   @negative
   Scenario Outline: Stories: POST negative
